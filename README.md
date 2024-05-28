@@ -1,6 +1,6 @@
 # PiGrow GitHub Action
 
-GitHub action to expand a Raspberry Pi SD card image
+GitHub action to decompress & expand a Raspberry Pi SD card image
 
 This action is the inverse of [ethanjli/pishrink-action](https://github.com/ethanjli/pishrink-action).
 
