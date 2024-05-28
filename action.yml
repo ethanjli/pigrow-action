@@ -44,11 +44,11 @@ runs:
         case "${{ inputs.mode }}" in
           by)
             echo "Growing $destination by ${{ inputs.size }}..."
-            adjustment="+${{ inputs.mode }}${{ inputs.size }}"
+            adjustment="+${{ inputs.size }}"
             ;;
           to)
             echo "Growing $destination to at least ${{ inputs.size }}..."
-            adjustment=">${{ inputs.mode }}${{ inputs.size }}"
+            adjustment=">${{ inputs.size }}"
             ;;
           none | '')
             adjustment=""

@@ -17,6 +17,7 @@ This action is the inverse of [ethanjli/pishrink-action](https://github.com/etha
   with:
     image: 2024-03-15-raspios-bookworm-arm64-lite.img.xz
     destination: 2024-03-15-raspios-bookworm-arm64-lite.img
+    mode: to
     size: 8G
 
 - name: Upload the image to Job Artifacts
@@ -74,8 +75,9 @@ This action is the inverse of [ethanjli/pishrink-action](https://github.com/etha
 
 ## `systemd-nspawn` Usage Example
 
-This example job grows the image before running commands in `systemd-nspawn` to generate a custom
-image, then shrinks it before uploading as an artifact on the GitHub Actions job:
+This example job grows the image before running commands in a lightweight namespace container
+(using `systemd-nspawn`) to generate a custom image, then shrinks it before uploading as an artifact
+on the GitHub Actions job:
 
 ```yaml
 jobs:
@@ -137,12 +139,12 @@ jobs:
 
 Inputs:
 
-| Input         | Allowed values | Required?                   | Description                                                       |
-|---------------|----------------|-----------------------------|-------------------------------------------------------------------|
-| `image`       | file path      | yes                         | Path of the image to grow.                                        |
-| `destination` | file path      | no (default random tempfile | Path to write the grown image to.                                 |
-| `mode`        | `by`, `to`     | no (default `to`)           | Grow the image by the size (`by`) or to at least the size (`to`). |
-| `size`        | size           | no (default `0`)            | Size adjustment.                                                  |
+| Input         | Allowed values     | Required?                    | Description                                                       |
+|---------------|--------------------|------------------------------|-------------------------------------------------------------------|
+| `image`       | file path          | yes                          | Path of the image to grow.                                        |
+| `destination` | file path          | no (default random tempfile) | Path to write the grown image to.                                 |
+| `mode`        | `none`, `by`, `to` | no (default `none`)          | Grow the image by the size (`by`) or to at least the size (`to`). |
+| `size`        | size               | no (default `0`)             | Size adjustment.                                                  |
 
 - The `size` input may be an integer, a unit, or an integer followed by a unit (with no space separating them):
 
@@ -157,6 +159,20 @@ Outputs:
 
 ## Credits
 
-This repository includes a modified copy of code from the `from_remote.sh` module script of
+This repository includes a modified copy of code snippets from the `from_remote.sh` module script of
 [Nature40/pimod](https://github.com/Nature40/pimod), published under the GPL-3.0 License; as a
-result, this repository is also released under GPL-3.0-only.
+result, this repository is also released under GPL-3.0-only. Here is the citation for the pimod
+project's [scientific paper](https://jonashoechst.de/assets/papers/hoechst2020pimod.pdf):
+
+```bibtex
+@inproceedings{hoechst2020pimod,
+  author = {{Höchst}, Jonas and Penning, Alvar and Lampe, Patrick and Freisleben, Bernd},
+  title = {{PIMOD: A Tool for Configuring Single-Board Computer Operating System Images}},
+  booktitle = {{2020 IEEE Global Humanitarian Technology Conference (GHTC 2020)}},
+  address = {Seattle, USA},
+  days = {29},
+  month = oct,
+  year = {2020},
+  keywords = {Single-Board Computer; Operating System Image; System Provisioning},
+}
+```
