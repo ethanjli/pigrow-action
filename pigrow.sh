@@ -79,9 +79,9 @@ extract_image() {
 }
 
 grow_image() {
-  local "$adjustment"
+  local adjustment
   adjustment="$1"
-  local "$image"
+  local image
   image="$2"
 
   truncate -s "$adjustment" "$image"
