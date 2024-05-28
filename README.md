@@ -13,7 +13,7 @@ This action is the inverse of [ethanjli/pishrink-action](https://github.com/etha
   run: wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 
 - name: Grow the image
-  uses: ethanjli/pigrow-action@v0.1.0
+  uses: ethanjli/pigrow-action@v0.1.1
   with:
     image: 2024-03-15-raspios-bookworm-arm64-lite.img.xz
     destination: 2024-03-15-raspios-bookworm-arm64-lite.img
@@ -36,7 +36,7 @@ This action is the inverse of [ethanjli/pishrink-action](https://github.com/etha
   run: wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 
 - name: Grow the image
-  uses: ethanjli/pigrow-action@v0.1.0
+  uses: ethanjli/pigrow-action@v0.1.1
   with:
     image: 2024-03-15-raspios-bookworm-arm64-lite.img.xz
     destination: 2024-03-15-raspios-bookworm-arm64-lite.img
@@ -59,7 +59,7 @@ This action is the inverse of [ethanjli/pishrink-action](https://github.com/etha
   run: wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 
 - name: Extract the image
-  uses: ethanjli/pigrow-action@v0.1.0
+  uses: ethanjli/pigrow-action@v0.1.1
   with:
     image: 2024-03-15-raspios-bookworm-arm64-lite.img.xz
     destination: 2024-03-15-raspios-bookworm-arm64-lite.img
@@ -92,7 +92,7 @@ jobs:
         run: wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 
       - name: Grow the image
-        uses: ethanjli/pigrow-action@v0.1.0
+        uses: ethanjli/pigrow-action@v0.1.1
         with:
           image: 2024-03-15-raspios-bookworm-arm64-lite.img.xz
           destination: cowsay-image.img
