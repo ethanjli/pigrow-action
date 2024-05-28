@@ -78,6 +78,21 @@ extract_image() {
   esac
 }
 
+grow_image() {
+  local "$adjustment"
+  adjustment="$1"
+  local "$image"
+  image="$2"
+
+  truncate -s "$adjustment" "$image"
+  echo ", +" | sfdisk -N 2 $image
+
+  device="$(sudo losetup -fP --show "$image")"
+  sudo e2fsck -p -f "${device}p2"
+  sudo resize2fs "${device}p2"
+  sudo losetup -d "$device"
+}
+
 image="$1"
 destination="$2"
 adjustment="$3"
@@ -90,11 +105,4 @@ if [ -z "$adjustment" ]; then
 fi
 
 echo "Growing $destination: $adjustment..."
-truncate -s "$adjustment" "$image"
-echo ", +" | sfdisk -N 2 $image
-
-device="$(sudo losetup -fP --show "$image")"
-sudo e2fsck -p -f "${device}p2"
-sudo resize2fs "${device}p2"
-sudo losetup -d "$device"
-
+grow_image "$adjustment" "$destination"
