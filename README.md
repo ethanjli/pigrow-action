@@ -105,11 +105,7 @@ jobs:
           sudo apt-get install systemd-container qemu-user-static binfmt-support
 
           # Mount the image:
-          device="$(losetup -fP --show cowsay-image.img)"
-          sysroot="/mnt/image-sysroot"
-          sudo mkdir -p "$sysroot"
-          sudo mount "${device}p2" "$sysroot"
-          sudo mount "${device}p1" "$sysroot/boot"
+          device="$(sudo losetup -fP --show cowsay-image.img)"
 
           # Run commands in the container:
           sudo systemd-nspawn --directory "$sysroot" bash -c "\
@@ -119,8 +115,6 @@ jobs:
           "
 
           # Unmount the image:
-          sudo umount "$sysroot/boot"
-          sudo umount "$sysroot"
           sudo losetup -d "$device"
 
       - name: Shrink the image

@@ -45,20 +45,12 @@ jobs:
       - name: Build the image
         run: |
           sudo apt-get install systemd-container qemu-user-static binfmt-support
-
-          device="$(losetup -fP --show ${{ steps.grow-image.outputs.destination }})"
-          sysroot="$(sudo mktemp -d --tmpdir=/mnt sysroot.XXXXXXX)"
-          sudo mount "${device}p2" "$sysroot"
-          sudo mount "${device}p1" "$sysroot/boot"
-
-          sudo systemd-nspawn --directory "$sysroot" bash -c "\
+          device="$(sudo losetup -fP --show ${{ steps.grow-image.outputs.destination }})"
+          sudo systemd-nspawn --image "${device}p2" bash -c "\
             apt-get update
             apt-get install -y cowsay
             /usr/games/cowsay 'I am running in a namespace container!'
           "
-
-          sudo umount "$sysroot/boot"
-          sudo umount "$sysroot"
           sudo losetup -d "$device"
 
       - name: Shrink the image
