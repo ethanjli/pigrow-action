@@ -57,7 +57,7 @@ jobs:
         uses: ethanjli/pishrink-action@v0.1.1
         with:
           image: ${{ steps.grow-image.outputs.destination }}
-          destination: cowsay-image.img
+          destination: cowsay-image.img.gz
           compress: gzip
           compress-parallel: true
 
@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rpi-${{ matrix.destination.name }}-arm64-latest
-          path: cowsay-image.img
+          path: cowsay-image.img.gz
           if-no-files-found: error
           retention-days: 0
           overwrite: true
