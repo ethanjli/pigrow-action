@@ -64,4 +64,5 @@ runs:
             ;;
         esac
 
+        echo "Running pigrow.sh \"$INPUT_IMAGE\" \"$destination\" \"$adjustment\"..."
         ${{ github.action_path }}/pigrow.sh "$INPUT_IMAGE" "$destination" "$adjustment"
