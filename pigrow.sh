@@ -95,7 +95,7 @@ grow_image() {
 
 image="$1"
 destination="$2"
-adjustment="$3"
+adjustment="${3:-}"
 
 echo "Extracting $image to $destination..."
 extract_image "$image" "$destination"
