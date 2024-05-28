@@ -2,7 +2,7 @@ name: "Run PiGrow"
 author: ethanjli
 description: Grows a Raspberry Pi SD card image, decompressing it if necessary.
 branding:
-  icon: minimize-2
+  icon: maximize-2
   color: red
 
 inputs:
