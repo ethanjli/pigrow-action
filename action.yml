@@ -1,0 +1,62 @@
+name: "Run PiGrow"
+author: ethanjli
+description: Grows a Raspberry Pi SD card image, decompressing it if necessary.
+branding:
+  icon: minimize-2
+  color: red
+
+inputs:
+  image:
+    description: Path of the image to grow
+    required: true
+  destination:
+    description: Path to write the grown image to
+    required: false
+  mode:
+    description:
+      Grow the image by the specified size, or grow the image to at least the specified size.
+      Allowed values are `by`, `to`, and `none`.
+    required: false
+    default: none
+  size:
+    description:
+      Grow the image by the specified size, or to at least the specified size.
+    required: false
+    default: 0
+
+outputs:
+  destination:
+    description: Path of the shrunken image
+    value: ${{ steps.run-pigrow.outputs.destination }}
+
+runs:
+  using: composite
+  steps:
+    - id: run-pigrow
+      shell: bash
+      run: |
+        destination="${{ inputs.destination }}"
+        if [ -z "$destination" ]; then
+          destination="$(mktemp --tmpdir=/tmp raw-image.XXXXXXX)"
+        fi
+        echo "destination=$destination" >> $GITHUB_OUTPUT
+
+        case "${{ inputs.mode }}" in
+          by)
+            echo "Growing $destination by ${{ inputs.size }}..."
+            adjustment="+${{ inputs.mode }}${{ inputs.size }}"
+            ;;
+          to)
+            echo "Growing $destination to at least ${{ inputs.size }}..."
+            adjustment=">${{ inputs.mode }}${{ inputs.size }}"
+            ;;
+          none | '')
+            adjustment=""
+            ;;
+          *)
+            echo "Error: unrecognized mode: ${{ inputs.mode }}"
+            exit 1
+            ;;
+        esac
+
+        ${{ github.action_path }}/pigrow.sh "${{ inputs.image }}" "$destination" "$adjustment"
