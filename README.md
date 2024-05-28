@@ -106,15 +106,21 @@ jobs:
 
           # Mount the image:
           device="$(losetup -fP --show cowsay-image.img)"
+          sysroot="/mnt/image-sysroot"
+          sudo mkdir -p "$sysroot"
+          sudo mount "${device}p2" "$sysroot"
+          sudo mount "${device}p1" "$sysroot/boot"
 
           # Run commands in the container:
-          sudo systemd-nspawn --image "${device}p2" bash -c "\
+          sudo systemd-nspawn --directory "$sysroot" bash -c "\
             apt-get update
             apt-get install -y cowsay
-            /usr/games/cowsay "I am running in a light-weight namespace container!"
+            /usr/games/cowsay 'I am running in a light-weight namespace container!'
           "
 
           # Unmount the image:
+          sudo umount "$sysroot/boot"
+          sudo umount "$sysroot"
           sudo losetup -d "$device"
 
       - name: Shrink the image
