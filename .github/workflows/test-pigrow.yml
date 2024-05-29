@@ -40,7 +40,7 @@ jobs:
         id: grow-image
         uses: ./
         with:
-          image: /tmp/2024-03-15-raspios-bookworm-arm64-lite.img.xz
+          image: ${{ steps.download-base.outputs.destination }}
           destination: ${{ matrix.destination.path }}
           mode: by
           size: 8G
