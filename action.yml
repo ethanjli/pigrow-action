@@ -40,29 +40,4 @@ runs:
         INPUT_MODE: ${{ inputs.mode }}
         INPUT_SIZE: ${{ inputs.size }}
       run: |
-        destination="$INPUT_DESTINATION"
-        if [ -z "$destination" ]; then
-          destination="$(mktemp --tmpdir=/tmp raw-image.XXXXXXX)"
-        fi
-        echo "destination=$destination" >> $GITHUB_OUTPUT
-
-        case "$INPUT_MODE" in
-          by)
-            echo "Growing $destination by $INPUT_SIZE..."
-            adjustment="+$INPUT_SIZE"
-            ;;
-          to)
-            echo "Growing $destination to at least $INPUT_SIZE..."
-            adjustment=">$INPUT_SIZE"
-            ;;
-          none | '')
-            adjustment=""
-            ;;
-          *)
-            echo "Error: unrecognized mode: $INPUT_MODE"
-            exit 1
-            ;;
-        esac
-
-        echo "Running pigrow.sh \"$INPUT_IMAGE\" \"$destination\" \"$adjustment\"..."
-        ${{ github.action_path }}/pigrow.sh "$INPUT_IMAGE" "$destination" "$adjustment"
+        ${{ github.action_path }}/gha-wrapper-pigrow.sh
