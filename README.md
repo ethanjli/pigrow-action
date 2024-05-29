@@ -100,22 +100,13 @@ jobs:
           size: 8G
 
       - name: Build the image
-        run: |
-          # Install containerization dependencies:
-          sudo apt-get install systemd-container qemu-user-static binfmt-support
-
-          # Mount the image:
-          device="$(sudo losetup -fP --show cowsay-image.img)"
-
-          # Run commands in the container:
-          sudo systemd-nspawn --directory "$sysroot" bash -c "\
+        uses: ethanjli/pinspawn-action@v0.1.1
+        with:
+          image: cowsay-image.img
+          run: |
             apt-get update
             apt-get install -y cowsay
             /usr/games/cowsay 'I am running in a light-weight namespace container!'
-          "
-
-          # Unmount the image:
-          sudo losetup -d "$device"
 
       - name: Shrink the image
         uses: ethanjli/pishrink-action@v0.1.1

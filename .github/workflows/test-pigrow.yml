@@ -46,15 +46,13 @@ jobs:
           size: 8G
 
       - name: Build the image
-        run: |
-          sudo apt-get install systemd-container qemu-user-static binfmt-support
-          device="$(sudo losetup -fP --show ${{ steps.grow-image.outputs.destination }})"
-          sudo systemd-nspawn --image "${device}p2" bash -c "\
+        uses: ethanjli/pinspawn-action@v0.1.1
+        with:
+          image: ${{ steps.grow-image.outputs.destination }}
+          run: |
             apt-get update
             apt-get install -y cowsay
-            /usr/games/cowsay 'I am running in a namespace container!'
-          "
-          sudo losetup -d "$device"
+            /usr/games/cowsay 'I am running in a light-weight namespace container!'
 
       - name: Shrink the image
         uses: ethanjli/pishrink-action@v0.1.1
