@@ -46,7 +46,7 @@ jobs:
           size: 8G
 
       - name: Build the image
-        uses: ethanjli/pinspawn-action@v0.1.1
+        uses: ethanjli/pinspawn-action@v0.1.2
         with:
           image: ${{ steps.grow-image.outputs.destination }}
           run: |
